@@ -14,6 +14,7 @@ Configurable Playback Duration: Set the display time for each media item.
 Requirements
 
 Processing: Required for visual output and media handling.
+
 Syphon Library: Required to output visuals to Syphon-compatible software.
 Usage
 Video Library: Required to read video files.
