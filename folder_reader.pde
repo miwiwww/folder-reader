@@ -6,38 +6,38 @@ ArrayList<File> arquivos;
 int indiceAtual = 0;
 PImage img;
 Movie video;
-String pasta = "/Users/helo/Desktop/FOTOS SPRITE"; // Caminho para sua pasta
+String pasta = "/Users/Desktop/folder"; // Write your folder path here
 
-int duracao = 5000; // Duração de cada mídia em milissegundos (5 segundos)
-int tempoAnterior = 0; // Marca o último tempo em que a mídia foi trocada
+int duracao = 5000; // mídia duration milisseconds (5s)
+int tempoAnterior = 0;
 
 void setup() {
-  size(1920, 1080, P2D); // Resolução configurada para 1080x1920 (retrato)
+  size(1920, 1080, P2D); // Resolution
   server = new SyphonServer(this, "Processing Syphon Output");
-  atualizarListaArquivos(); // Carrega a lista de arquivos no início
+  atualizarListaArquivos(); // UploadFolder
   carregarArquivoAtual();
 }
 
 void draw() {
   background(0, 0, 0, 0); // Define o fundo como transparente
 
-  // Exibe imagem ou vídeo conforme o tipo do arquivo atual, centralizado e sem redimensionamento
+  // Image without Scalling
   if (img != null) {
     imageMode(CENTER);
-    image(img, width / 2, height / 2); // Exibe no tamanho original, centralizado
+    image(img, width / 2, height / 2); // original size, center
   } else if (video != null) {
     imageMode(CENTER);
-    image(video, width / 2, height / 2); // Exibe no tamanho original, centralizado
+    image(video, width / 2, height / 2); // original size, center
   }
 
-  // Envia a tela atual para o Syphon
+  // Send to Syphon
   server.sendScreen();
 
-  // Verifica se já passaram 5 segundos para trocar de mídia
+  // Duration
   if (millis() - tempoAnterior > duracao) {
     indiceAtual++;
     if (indiceAtual >= arquivos.size()) {
-      // Atualiza a lista de arquivos ao final de cada loop
+      // Refresh Folder
       atualizarListaArquivos();
       indiceAtual = 0; // Reinicia o índice para o próximo loop
     }
@@ -46,7 +46,7 @@ void draw() {
   }
 }
 
-// Função para atualizar a lista de arquivos da pasta
+// Refresh Folder
 void atualizarListaArquivos() {
   arquivos = new ArrayList<File>();
   File diretorio = new File(pasta);
@@ -61,7 +61,7 @@ void atualizarListaArquivos() {
   }
 }
 
-// Carrega o próximo arquivo (imagem ou vídeo)
+// Upload Next File
 void carregarArquivoAtual() {
   if (indiceAtual < arquivos.size()) {
     File arquivoAtual = arquivos.get(indiceAtual);
@@ -78,7 +78,7 @@ void carregarArquivoAtual() {
   }
 }
 
-// Evento chamado para atualizar os frames do vídeo
+// Refresh video frames
 void movieEvent(Movie m) {
   m.read();
 }
